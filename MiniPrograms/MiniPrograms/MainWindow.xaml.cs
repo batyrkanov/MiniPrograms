@@ -15,15 +15,14 @@ using System.Windows.Shapes;
 
 namespace MiniPrograms
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
+   
     public partial class MainWindow : Window
     {
-        int count = 0;
-        int from = 0;
-        int to = 0;
-        Random rnd = new Random();
+        RandomGenerator rand = new RandomGenerator(); //cоздаём объект класса для счётчика
+        RandomGenerator randFrom = new RandomGenerator(); //cоздаём объект класса для генератора ОТ
+        RandomGenerator randTo = new RandomGenerator(); //cоздаём объект класса для генератора ДО
+        RandomGenerator IncrementForRand = new RandomGenerator(); //cоздаём объект класса для счётчика генератора
+        
 
         public MainWindow()
         {
@@ -31,79 +30,86 @@ namespace MiniPrograms
         }
 
         private void btn_plus_Click(object sender, RoutedEventArgs e)
-        {
-            count++;
-            lblCount.Content = count.ToString();
+        { //метод для кнопки счётчика, увеличивает значения при каждом нажатии
+            //передаёт эти значения на отображение в lable
+            lblCount.Content = rand.Increment().ToString();
         }
 
         private void btn_reset_Click(object sender, RoutedEventArgs e)
-        {
-            count = 0;
-            lblCount.Content = count.ToString();
+        {//метод для кнопки счётчика, сбрасывает значения при каждом нажатии
+         //передаёт на отображение в lable
+            lblCount.Content = rand.Reset().ToString();
         }
 
         private void btn_minus_Click(object sender, RoutedEventArgs e)
-        {
-            count--;
-            lblCount.Content = count.ToString();
+        {//метод для кнопки счётчика, уменьшения значения при каждом нажатии
+         //передаёт эти значения на отображение в lable
+            lblCount.Content = rand.Dicrement().ToString();
         }
 
         private void btnGenerate_Click(object sender, RoutedEventArgs e)
         {
-            
-            int n;
-            n = rnd.Next(Convert.ToInt32(lblFirstNum.Content), Convert.ToInt32(lblSecondNum.Content));
-            lblRandom.Content = n.ToString();
-            if (checkBox.IsChecked == true)
+         //метод для кнопки Генерировать. Использует метод класса, который передаются два параметра вида строка, возвращается число
+         //которое преобразуется в строку для дальнейшего отображения
+            lblRandom.Content = rand.Generator(lblFirstNum.Content.ToString(), lblSecondNum.Content.ToString()).ToString();
+            if (checkBox.IsChecked == true)//если кнопка Без повторений помечена, то
             {
-                int i = 0;
-                while (txtbRandom.Text.IndexOf(n.ToString()) != -1)
+                // нужно проверить на наличие имеющихся цифр
+                while (txtbRandom.Text.IndexOf(rand.Generator(lblFirstNum.Content.ToString(), lblSecondNum.Content.ToString()).ToString()) != -1)
                 { 
-                    n = rnd.Next(Convert.ToInt32(lblFirstNum.Content), Convert.ToInt32(lblSecondNum.Content));
-                    i++;
-                    if (i > 1000) break;
+                    // генерируем число и проверяем на наличие
+                    rand.Generator(lblFirstNum.Content.ToString(), lblSecondNum.Content.ToString());
+                    // тем временем у нас увеличивается значение IncrementForRand
+                    IncrementForRand.Increment();
+                    // и если его значение превысит 1000, то нужно выйти из цикла
+                    if (IncrementForRand.Increment() > 1000) break;
                 }
-                if (i<=1000) txtbRandom.AppendText(n + "\n");
+                //если же это не так, то добавлять значения в список
+                if (IncrementForRand.Increment() <= 1000) txtbRandom.AppendText(rand.Generator(lblFirstNum.Content.ToString(), lblSecondNum.Content.ToString()) + "\n");
             }
-            else
+            else // если нет, то записывать всё подряд
             {
-                txtbRandom.AppendText(n + "\n");
+                txtbRandom.AppendText(rand.Generator(lblFirstNum.Content.ToString(), lblSecondNum.Content.ToString()) + "\n");
             }
             
         }
 
         private void btn1Minus_Click(object sender, RoutedEventArgs e)
         {
-            from--;
-            lblFirstNum.Content = from.ToString();
+            //метод для первой кнопки генератора, уменьшения значения при каждом нажатии
+            //передаёт эти значения на отображение в lable
+            lblFirstNum.Content = randFrom.Dicrement().ToString();
         }
 
         private void btn1Plus_Click(object sender, RoutedEventArgs e)
         {
-            from++;
-            lblFirstNum.Content = from.ToString();
+            //метод для первой кнопки счётчика, увелечение значения при каждом нажатии
+            //передаёт эти значения на отображение в lable
+            lblFirstNum.Content = randFrom.Increment().ToString();
         }
 
         private void btn1Minus1_Click(object sender, RoutedEventArgs e)
         {
-            to--;
-            lblSecondNum.Content = to.ToString();
+            //метод для второй кнопки счётчика, уменьшение значения при каждом нажатии
+            //передаёт эти значения на отображение в lable
+            lblSecondNum.Content = randTo.Dicrement().ToString();
         }
 
         private void btn2Plus_Click(object sender, RoutedEventArgs e)
         {
-            to++;
-            lblSecondNum.Content = to.ToString();
+            //метод для второй кнопки счётчика, увелечение значения при каждом нажатии
+            //передаёт эти значения на отображение в lable   
+            lblSecondNum.Content = randTo.Increment().ToString();
         }
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
-            txtbRandom.Clear();
+            txtbRandom.Clear(); // метод очищения текстбокса
         }
 
         private void btnRandCopy_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText(txtbRandom.Text);
+            Clipboard.SetText(txtbRandom.Text); //метод копирования из текстбокса
         }
     }
 }

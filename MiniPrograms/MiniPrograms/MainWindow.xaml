@@ -34,6 +34,11 @@
                     <CheckBox x:Name="checkBox" Content="Без повторений" HorizontalAlignment="Left" Margin="32,215,0,0" VerticalAlignment="Top" Width="144" Height="20" IsChecked="True"/>
                 </Grid>
             </TabItem>
+            <TabItem  x:Name="notepad" Header="Блокнот">
+                <Grid Background="#FFE5E5E5">
+                    
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>
