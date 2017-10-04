@@ -22,7 +22,7 @@ namespace MiniPrograms
         RandomGenerator randFrom = new RandomGenerator(); //cоздаём объект класса для генератора ОТ
         RandomGenerator randTo = new RandomGenerator(); //cоздаём объект класса для генератора ДО
         RandomGenerator IncrementForRand = new RandomGenerator(); //cоздаём объект класса для счётчика генератора
-        
+        RandomGenerator SQRT = new RandomGenerator();
 
         public MainWindow()
         {
@@ -110,6 +110,12 @@ namespace MiniPrograms
         private void btnRandCopy_Click(object sender, RoutedEventArgs e)
         {
             Clipboard.SetText(txtbRandom.Text); //метод копирования из текстбокса
+        }
+
+        private void btnSqrt_Click(object sender, RoutedEventArgs e)
+        {
+
+            lblSQRT.Content = SQRT.Squrt(txtbSqrt.Text).ToString();
         }
     }
 }

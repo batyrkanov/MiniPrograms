@@ -11,6 +11,7 @@ namespace MiniPrograms
         private int count = 0;
         Random rnd = new Random();
         private int n;
+        private double sq;
 
         public int Increment()//метод инкремент
         {
@@ -31,6 +32,12 @@ namespace MiniPrograms
         {
             n = rnd.Next(Convert.ToInt32(a), Convert.ToInt32(b));
             return n;
+        }
+
+        public double Squrt( string element)//метод извлечения квадратного корня
+        {
+            sq = Math.Sqrt(Convert.ToDouble(element));
+            return sq;
         }
 
     }
